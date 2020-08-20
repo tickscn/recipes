@@ -12,9 +12,8 @@ using namespace daina::detail;
 
 namespace daina {
 namespace detail {
-    const char  // di
-        gits[]       = "9876543210123456789";
-    const char* Zero = digits + 9;
+    const char digits[] = "9876543210123456789";
+    const char* Zero    = digits + 9;
     static_assert(sizeof(digits) == 20, "数字数目错误");
     const char hexDigits[] = "0123456789ABCDEF";
     static_assert(sizeof(hexDigits) == 17, "16进制数字数目错误");
@@ -215,7 +214,7 @@ LogStream& LogStream::operator<<(const void* p)
 
 /*
  * snprintf 使用的是Dragon4 算法
- * 以后可以尝试使用 Grisu算法来替换
+ * TODO 以后可以尝试使用 Grisu算法来替换
  */
 LogStream& LogStream::operator<<(double v)
 {
