@@ -10,10 +10,16 @@ template <typename T>
 class BlockingQueue : noncopyable {
 public:
     BlockingQueue() = default;
-    void put(const T&& x)
+    void put(T&& x)
     {
         std::lock_guard<std::mutex> lk(_mutex);
-        _queue.push_back(std::forward(x));
+        _queue.push_back(std::move(x));
+        _notEmpty.notify_one();
+    }
+
+    void put(const T& x)
+    {
+        std::lock_guard<std::mutex> lk(_mutex);
         _notEmpty.notify_one();
     }
 

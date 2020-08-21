@@ -1,0 +1,2 @@
+add_executable(blockingqueue_test BlockingQueue_test.cc)
+target_link_libraries(blockingqueue_test daina_base)
