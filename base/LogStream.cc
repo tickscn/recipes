@@ -61,40 +61,32 @@ namespace detail {
 string formatAsSI(int64_t n)
 {
     char buf[10];
+    char suffix[]    = {'K', 'M', 'G', 'T', 'P', 'E'};
+    const char* Zero = daina::detail::Zero;
     if (n < 1000)
+    {
         snprintf(buf, sizeof buf, "%" PRId64, n);
-    else if (n < 9995)
-        snprintf(buf, sizeof buf, "%.2fK", n / 1e3);
-    else if (n < 99950)
-        snprintf(buf, sizeof buf, "%.1fK", n / 1e3);
-    else if (n < 999500)
-        snprintf(buf, sizeof buf, "%" PRId64 "K", n / 1000);
-    else if (n < 9995000)
-        snprintf(buf, sizeof buf, "%.2fM", n / 1e6);
-    else if (n < 99950000)
-        snprintf(buf, sizeof buf, "%.1fM", n / 1e6);
-    else if (n < 999500000)
-        snprintf(buf, sizeof buf, "%" PRId64 "M", n / 1000000);
-    else if (n < 9995000000)
-        snprintf(buf, sizeof buf, "%.2fG", n / 1e9);
-    else if (n < 99950000000)
-        snprintf(buf, sizeof buf, "%.1fG", n / 1e9);
-    else if (n < 999500000000)
-        snprintf(buf, sizeof buf, "%" PRId64 "G", n / 1000000000);
-    else if (n < 9995000000000)
-        snprintf(buf, sizeof buf, "%.2fT", n / 1e12);
-    else if (n < 99950000000000)
-        snprintf(buf, sizeof buf, "%.1fT", n / 1e12);
-    else if (n < 999500000000000)
-        snprintf(buf, sizeof buf, "%" PRId64 "T", n / 1000000000000);
-    else if (n < 9995000000000000)
-        snprintf(buf, sizeof buf, "%.2fP", n / 1e15);
-    else if (n < 99950000000000000)
-        snprintf(buf, sizeof buf, "%.1fP", n / 1e15);
-    else if (n < 999500000000000000)
-        snprintf(buf, sizeof buf, "%" PRId64 "T", n / 1000000000000000);
-    else
-        snprintf(buf, sizeof buf, "%.2fE", n / 1e18);
+        return buf;
+    }
+    int i = 0;
+    while (n > 10000)
+    {
+        n /= 10;
+        ++i;
+    }
+    n = (n + 5) / 10;
+    if (n >= 1000)
+    {
+        n /= 10;
+        ++i;
+    }
+    char su = suffix[i / 3];
+    if (i % 3 == 2)
+        snprintf(buf, sizeof buf, "%" PRId64 "%c", n, su);
+    else if (i % 3 == 0)
+        snprintf(buf, sizeof buf, "%c.%c%c%c", Zero[n / 100], Zero[n / 10 % 10], Zero[n % 10], su);
+    else if (i % 3 == 1)
+        snprintf(buf, sizeof buf, "%c%c.%c%c", Zero[n / 100], Zero[n / 10 % 10], Zero[n % 10], su);
     return buf;
 }
 
