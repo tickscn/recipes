@@ -174,6 +174,18 @@ void LogStream::formatInteger(T v)
     }
 }
 
+LogStream& LogStream::operator<<(short v)
+{
+    formatInteger(static_cast<int>(v));
+    return *this;
+}
+
+LogStream& LogStream::operator<<(unsigned short v)
+{
+    formatInteger(static_cast<unsigned>(v));
+    return *this;
+}
+
 LogStream& LogStream::operator<<(int v)
 {
     formatInteger(v);
@@ -181,6 +193,18 @@ LogStream& LogStream::operator<<(int v)
 }
 
 LogStream& LogStream::operator<<(unsigned v)
+{
+    formatInteger(v);
+    return *this;
+}
+
+LogStream& LogStream::operator<<(long v)
+{
+    formatInteger(v);
+    return *this;
+}
+
+LogStream& LogStream::operator<<(unsigned long v)
 {
     formatInteger(v);
     return *this;

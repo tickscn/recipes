@@ -98,8 +98,12 @@ public:
         _buffer.append(v ? "1" : "0", 1);
         return *this;
     }
+    self& operator<<(short);
+    self& operator<<(unsigned short);
     self& operator<<(int);
     self& operator<<(unsigned);
+    self& operator<<(long);
+    self& operator<<(unsigned long);
     self& operator<<(long long);
     self& operator<<(unsigned long long);
 
